@@ -1,4 +1,4 @@
-setwd("C:/Users/Leti/Desktop/UD") #set working directory
+##setwd("C:/Users/Leti/Desktop/UD") #set working directory
 data<-read.csv("leaf.csv") #load the data
 #Set variables names
 colnames(datos)<-c("Class","Specimen_Number","Eccentricity","Aspect_Ratio","Elongation","Solidity","Stochastic_Convexity","Isoperimetric_Factor","Maximal_Indentation_Depth","Lobedness","Average_Intensity","Average_Contrast","Smoothness","Third_moment","Uniformity","Entropy")
@@ -9,7 +9,7 @@ nrow(datos) # this data has 339 rows
 head(datos) # look at the first few
 
 #scale the data, except column 1
-new_datos <- scale(datos[,c(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)]) 
+new_datos <- scale(datos[,c(-1)]) 
 leaf_data_norm<-data.frame(datos[,1],new_datos)
 
 # splitdf function will return a list of training and testing sets
@@ -22,7 +22,7 @@ splitdf <- function(dataframe, seed=NULL) {
   list(trainset=trainset,testset=testset)
 }
 
-splits <- splitdf(datos, seed=800) #apply the function setting seed=800
+splits <- splitdf(leaf_data_norm, seed=800) #apply the function setting seed=800
 
 str(splits)
 #it returns a list - two data frames called trainset and testset
@@ -37,7 +37,7 @@ lapply(splits,head)
 training <- splits$trainset
 testing <- splits$testset
 
-plant_class <- funtion(training.dataset,test.dataset,output.filename) {
+plant_class <- function(training.dataset,test.dataset,output.filename) {
   training.table<-read.table(training.dataset)
   test.table<-read.table(test.dataset)
   
@@ -47,7 +47,7 @@ plant_class <- funtion(training.dataset,test.dataset,output.filename) {
   remove(training.table)
   
   #funtion for calculating priors
-  calculate.priors<-funtion(class.vector) {
+  calculate.priors<-function(class.vector) {
     prior<-c()
     for (class in unique(class.vector)) {
       priors<-rbind(priors, c(class,length(class.vector[class.vector==class])/length(class.vector)))
